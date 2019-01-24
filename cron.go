@@ -7,15 +7,17 @@ import (
 	"time"
 )
 
+type entries []*Entry
+
 // Cron keeps track of any number of entries, invoking the associated func as
 // specified by the schedule. It may be started, stopped, and the entries may
 // be inspected while running.
 type Cron struct {
-	entries  []*Entry
+	entries  entries
 	stop     chan struct{}
 	add      chan *Entry
 	remove   chan string
-	snapshot chan []*Entry
+	snapshot chan entries
 	running  bool
 	ErrorLog *log.Logger
 	location *time.Location
